@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const locationRoutes = require('./routes/location');
 const db = require('./db'); // Connection to MSSQL
+const router = express.Router();
 
 const app = express();
 
@@ -13,6 +14,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api', locationRoutes);
+
+router.get('/test', (req, res) => {
+  res.json({ message: 'API is working!' });
+});
 
 // Start the server
 const PORT = 5000;

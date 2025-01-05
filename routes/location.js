@@ -67,4 +67,28 @@ router.post('/store-location', async (req, res) => {
   }
 });
 
+// Endpoint to retrieve all location data
+router.get('/locations', async (req, res) => {
+  const query = `
+    SELECT * FROM locations;
+  `;
+
+  try {
+    const pool = await db.connect();
+    const result = await pool.request().query(query);
+    pool.close();
+
+    const locations = result.recordset;
+
+    res.status(200).json({
+      message: 'Locations retrieved successfully!',
+      locations,
+    });
+  } catch (err) {
+    console.error('Error retrieving locations:', err);
+    res.status(500).json({ error: 'Failed to retrieve location data!' });
+  }
+});
+
+
 module.exports = router;
